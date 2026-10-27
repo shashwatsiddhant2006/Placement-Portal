@@ -1,0 +1,206 @@
+Campus Placement Portal
+Product Requirements Document (PRD) — Version 1.1
+Revision note: Section 5 and 6 updated to rebalance workload between Shashwat and Arnav. See Section 5.1 for rationale.
+1. Problem Statement
+Campus recruitment at most institutions is still run through scattered spreadsheets and email threads maintained by the Training & Placement (T&P) cell. This causes duplicated and inconsistent student/company records, no single source of truth for where an application stands, manual and error-prone eligibility checks against CGPA/department/skill criteria, and poor visibility for students into their own application pipeline. The Campus Placement Portal replaces this with a single normalized relational database enforcing referential integrity, status consistency, and eligibility rules across every student, recruiter, and staff interaction.
+2. Goals & Success Metrics
+Goal
+Metric
+Eliminate data redundancy
+Schema normalized to BCNF; no relation shows partial or transitive dependency anomalies
+Reliable application tracking
+100% of status transitions (Pending → Shortlisted → Interview → Hired/Rejected) enforced via PL-SQL procedures/triggers, with zero orphaned or contradictory records
+Accurate eligibility matching
+Eligibility queries (department, CGPA, required skills) return only correctly qualifying students, verified against a seeded test dataset
+Usable role-based interfaces
+A student can go from login to submitted application in under 5 clicks; Student, Recruiter, and Staff each get a distinct, role-appropriate view
+End-to-end functional demo
+Full pipeline — profile creation → job posting → application → interview → offer — runs live without manual database edits
+3. Users & Personas
+Student — builds a profile, uploads a resume, lists skills, browses postings, applies, and tracks status through to offer.
+Recruiter — registers a company, posts jobs with eligibility/package details, reviews applicants, schedules interviews, extends offers.
+T&P Staff (Admin) — verifies applications, sends notifications, oversees the pipeline across departments and companies, views placement statistics.
+4. Scope
+In Scope
+Student profile management (profile, address, department, resume, skills)
+Recruiter & company registration
+Job posting creation with eligibility criteria and package
+Skill-based eligibility matching
+Full application lifecycle tracking
+Interview scheduling and result logging
+Offer generation and tracking
+Staff verification/moderation workflow
+In-app notifications
+Normalized relational core (up to BCNF)
+One skill-matching/recommendation module on a non-relational (graph) data model
+Out of Scope (Future/Post-MVP)
+Payment/stipend processing
+Third-party job-board integrations (LinkedIn, Naukri, etc.)
+Native mobile apps
+Production-grade authentication/SSO
+Real email/SMS notification delivery (in-app only for MVP)
+Multi-institution/multi-tenant support
+Resume parsing via ML
+5. Task & Role Division
+All database design, schema, and query logic is primarily owned by Shashwat, and all UI/UX and role-based screens are primarily owned by Arnav. The four most design-intensive and time-consuming tasks in the project — schema design, eligibility logic, status-transition procedures, and the graph-DB extension — are shared jointly so that neither person absorbs a disproportionate share of the hardest work, and so Arnav's project experience and design input feed directly into these decisions rather than being confined to the UI layer.
+5.1 Rebalance Rationale (v1.1)
+The original split (13 tasks to Shashwat, 9 to Arnav) counted tasks but not effort or difficulty. Four backend tasks — schema design (BCNF), eligibility-matching logic, PL-SQL status-transition procedures, and the graph-DB skill-matching module — are substantially heavier and more open-ended than the remaining backend tasks (which are largely CRUD/registration/logging work following an established pattern). This revision moves those four heavy tasks to shared ownership, keeps the rest of the backend with Shashwat, and keeps all UI/UX with Arnav. The result is 9 solo tasks each, plus 6 shared tasks (the 4 heavy items plus the pre-existing shared integration testing and documentation).
+#
+Task
+Priority
+Owner
+Area
+1
+Normalized relational schema (BCNF) + DDL scripts
+P0
+Shared
+Database
+2
+Student profile data model & CRUD queries
+P0
+Shashwat
+Database/Backend
+3
+Student profile UI (create/edit, resume upload, skills)
+P0
+Arnav
+Frontend
+4
+Recruiter & company registration (backend)
+P0
+Shashwat
+Database/Backend
+5
+Job posting creation & listing (backend)
+P0
+Shashwat
+Database/Backend
+6
+Job posting UI (recruiter: create/view/edit postings)
+P0
+Arnav
+Frontend
+7
+Eligibility-matching query (department, CGPA, skills)
+P0
+Shared
+Backend/SQL
+8
+Application submission logic (apply, duplicate-prevention)
+P0
+Shashwat
+Backend
+9
+Application UI (student: browse postings, apply, status view)
+P0
+Arnav
+Frontend
+10
+PL-SQL status-transition procedures
+P1
+Shared
+Backend
+11
+Interview scheduling logic (backend)
+P1
+Shashwat
+Backend
+12
+Interview scheduling & result UI (recruiter)
+P1
+Arnav
+Frontend
+13
+Offer generation logic (backend)
+P1
+Shashwat
+Backend
+14
+Offer UI (view/accept/track offer)
+P1
+Arnav
+Frontend
+15
+Staff verification/moderation workflow (backend)
+P1
+Shashwat
+Backend
+16
+Staff dashboard UI (verification queue, oversight)
+P1
+Arnav
+Frontend
+17
+Notification triggers (status changes, deadlines)
+P1
+Shashwat
+Backend
+18
+Notification UI (in-app inbox/alerts)
+P1
+Arnav
+Frontend
+19
+Skill-matching/recommendation module (graph DB extension)
+P2
+Shared
+Database
+20
+Recommendation UI ("jobs for you" / best-fit candidates)
+P2
+Arnav
+Frontend
+21
+Placement statistics aggregation queries
+P2
+Shashwat
+Backend/SQL
+22
+Placement statistics dashboard (charts, breakdowns)
+P2
+Arnav
+Frontend
+23
+Integration testing & bug fixes (each module, end-to-end)
+—
+Both
+Shared
+24
+Report writing & documentation
+—
+Both
+Shared
+Workload Summary
+Owner
+Number of Tasks Owned
+Shashwat (solo)
+9
+Arnav (solo)
+9
+Shared (heavy backend: schema, eligibility logic, PL-SQL transitions, graph DB)
+4
+Shared (pre-existing: integration testing, documentation)
+2
+6. Team Roles
+Shashwat — Database & Backend Lead
+Owns CRUD/registration/job-posting backend, application-submission logic, interview and offer backend logic, staff verification workflow, notification triggers, and placement-statistics queries. Jointly owns, with Arnav, the four heaviest design decisions: schema normalization (BCNF), eligibility-matching logic, PL-SQL status-transition procedures/triggers, and the skill-matching graph-DB extension.
+Arnav — Frontend & UX Lead
+Owns all role-based UI (Student, Recruiter, Staff), resume/skill input flows, application tracker UI, interview/offer UI, staff dashboard, notification inbox, recommendation UI, and the placement statistics dashboard. Jointly owns, with Shashwat, the four heaviest design decisions listed above, contributing design and UX judgment to those backend/data-model choices rather than being limited to the UI layer.
+Integration Contract
+For the tasks Shashwat owns solo, he exposes a documented data-access layer (functions/views with fixed inputs and outputs) that Arnav's frontend consumes, so each person can build against a fixed contract rather than a moving target. For the four shared tasks, both contribute directly to design and implementation rather than working through a handoff contract.
+7. Future Features (Post-MVP Roadmap)
+Real email/SMS notification delivery
+Resume parsing and automatic skill extraction (ML-based)
+Third-party job board integrations
+Multi-institution / multi-tenant support
+Production-grade authentication (SSO/OAuth)
+Mobile companion app for status tracking
+Advanced analytics: predictive placement likelihood, historical trend dashboards
+Nationwide/multi-campus placement data federation
+8. Risks
+Single owner for most database/backend logic (Shashwat) remains a bottleneck for his solo tasks — mitigated by freezing the schema and data-access-layer contract early, and by sharing the four heaviest design tasks jointly so Arnav isn't purely a downstream consumer of backend decisions.
+Frontend-backend contract mismatch — mitigated by documenting exact function signatures and sample outputs before UI work starts on each module.
+Two-person bandwidth across a multi-module scope — P2 tasks (recommendation module, statistics dashboard) are explicitly cuttable/deferrable if P0/P1 work runs long.
+Graph-DB extension may not clearly outperform the relational baseline for the chosen use case — mitigated by picking a use case (skill/job matching) where the graph model has a genuine structural advantage, and documenting trade-offs honestly.
+No production-grade authentication — login/roles are simulated for MVP; explicitly acknowledged as an out-of-scope limitation.
+Notifications are in-app only — no real email/SMS delivery in MVP; named as a known limitation rather than a hidden gap.

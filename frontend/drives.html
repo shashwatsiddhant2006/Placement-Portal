@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Active Drives — Campus Placement Portal</title>
+  <meta name="description" content="Browse all active placement drives — filter by department, type, and deadline." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="index.html" style="display:flex;align-items:baseline;gap:12px;text-decoration:none">
+        <span class="nav-logo">CPP</span>
+        <span class="nav-subtitle">Campus Placement Portal</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html"     class="nav-link">Home</a>
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="drives.html"    class="nav-link active">Drives</a>
+      <a href="students.html"  class="nav-link">Students</a>
+      <a href="analytics.html" class="nav-link">Analytics</a>
+    </div>
+    <div class="nav-right">
+      <span class="nav-role-label">ROLE</span>
+      <select class="role-select" id="role-select" onchange="switchRole(this.value)">
+        <option value="student">Student</option>
+        <option value="recruiter">Recruiter</option>
+        <option value="staff">Staff / Admin</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header" style="position:relative;overflow:hidden">
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:var(--red);top:-100px;right:60px;z-index:0;opacity:.12"></div>
+    <div style="position:relative;z-index:1">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:8px">01 — Active Drives</div>
+      <h1 class="page-title">Active<br>Drives</h1>
+    </div>
+    <div style="position:relative;z-index:1;text-align:right">
+      <div style="font-size:64px;font-weight:900;letter-spacing:-.04em;color:var(--red);line-height:1">12</div>
+      <div style="font-size:13px;color:#666;margin-top:4px">Open Positions</div>
+      <div id="recruiter-btn" class="hidden" style="margin-top:16px">
+        <button class="btn-primary" onclick="openPostJobModal()">+ Post New Job</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setDriveFilter(this,'all')">All Drives</button>
+    <button class="filter-btn" onclick="setDriveFilter(this,'CSE')">CSE</button>
+    <button class="filter-btn" onclick="setDriveFilter(this,'ECE')">ECE</button>
+    <button class="filter-btn" onclick="setDriveFilter(this,'IT')">IT</button>
+    <button class="filter-btn" onclick="setDriveFilter(this,'ME')">ME</button>
+    <button class="filter-btn" onclick="setDriveFilter(this,'internship')">Internships</button>
+  </div>
+
+  <!-- DRIVES GRID -->
+  <div class="drives-full-grid" id="drives-full-grid"></div>
+
+  <footer class="footer grid-12" style="margin-top:0">
+    <div class="footer-bottom col-1-12" style="border-top:1px solid #111;padding:16px 40px">
+      <span class="footer-rule-text">CAMPUS PLACEMENT PORTAL — 01 ACTIVE DRIVES — BATCH 2026</span>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const role = currentRole();
+      if (role === 'recruiter') {
+        $('recruiter-btn').classList.remove('hidden');
+      }
+    });
+
+    function openPostJobModal() {
+      const html = `
+        <div class="modal-overlay open" id="post-job-modal" onclick="closeModal('post-job-modal')">
+          <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+              <div class="modal-title">Post New Job Drive</div>
+              <div class="modal-close" onclick="closeModal('post-job-modal')">✕</div>
+            </div>
+            <div class="modal-body">
+              <div class="apply-form">
+                <div class="form-group"><label class="form-label">Role Title</label><input class="form-input" type="text" placeholder="e.g. Software Engineer" /></div>
+                <div class="form-group"><label class="form-label">Package (CTC)</label><input class="form-input" type="text" placeholder="e.g. ₹28 LPA" /></div>
+                <div class="form-group"><label class="form-label">Minimum CGPA</label><input class="form-input" type="number" placeholder="e.g. 8.0" min="0" max="10" step="0.1" /></div>
+                <div class="form-group"><label class="form-label">Eligible Departments</label><input class="form-input" type="text" placeholder="e.g. CSE, IT, ECE" /></div>
+                <div class="form-group"><label class="form-label">Application Deadline</label><input class="form-input" type="date" /></div>
+                <div class="form-group"><label class="form-label">Job Description</label><textarea class="form-input" rows="4" placeholder="Describe the role, rounds, and expectations…" style="resize:vertical"></textarea></div>
+                <div class="form-group"><label class="form-label">Required Skills</label><input class="form-input" type="text" placeholder="e.g. Python, DSA, System Design" /></div>
+                <button class="btn-primary" onclick="closeModal('post-job-modal');showToast('Job drive posted successfully!')">Post Drive →</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      document.body.insertAdjacentHTML('beforeend', html);
+    }
+  </script>
+</body>
+</html>

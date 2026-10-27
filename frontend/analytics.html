@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics — Campus Placement Portal</title>
+  <meta name="description" content="Placement analytics — department-wise breakdown, CTC trends, skill demand heatmap." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="index.html" style="display:flex;align-items:baseline;gap:12px;text-decoration:none">
+        <span class="nav-logo">CPP</span>
+        <span class="nav-subtitle">Campus Placement Portal</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html"     class="nav-link">Home</a>
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="drives.html"    class="nav-link">Drives</a>
+      <a href="students.html"  class="nav-link">Students</a>
+      <a href="analytics.html" class="nav-link active">Analytics</a>
+    </div>
+    <div class="nav-right">
+      <span class="nav-role-label">ROLE</span>
+      <select class="role-select" id="role-select" onchange="switchRole(this.value)">
+        <option value="student">Student</option>
+        <option value="recruiter">Recruiter</option>
+        <option value="staff">Staff / Admin</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header" style="position:relative;overflow:hidden;border-bottom:1px solid #111">
+    <div style="position:absolute;width:260px;height:260px;border-radius:50%;background:var(--red);top:-80px;right:200px;z-index:0"></div>
+    <div style="position:relative;z-index:1">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:8px">03 — Analytics</div>
+      <h1 class="page-title">Placement<br>Analytics</h1>
+      <p class="page-subtitle">Batch 2026 · Data as of 27 October 2026</p>
+    </div>
+    <div style="position:relative;z-index:1;text-align:right">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:8px">Placement Rate</div>
+      <div style="font-size:120px;font-weight:900;letter-spacing:-.06em;line-height:.85;color:var(--red)">89<span style="font-size:48px">%</span></div>
+    </div>
+  </div>
+
+  <!-- TOP KPI ROW -->
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid #111">
+    <div class="analytics-card">
+      <div class="analytics-label">Highest CTC</div>
+      <div class="analytics-big">₹42</div>
+      <div class="analytics-unit">LPA</div>
+      <div class="bar-container"><div class="bar" style="width:100%"></div></div>
+      <div class="analytics-caption">Google SWE — Aditya Sharma, CSE</div>
+    </div>
+    <div class="analytics-card">
+      <div class="analytics-label">Average CTC</div>
+      <div class="analytics-big">₹18.4</div>
+      <div class="analytics-unit">LPA</div>
+      <div class="bar-container"><div class="bar" style="width:44%"></div></div>
+      <div class="analytics-caption">Up 12% from ₹16.4 LPA (Batch 2025)</div>
+    </div>
+    <div class="analytics-card">
+      <div class="analytics-label">Median CTC</div>
+      <div class="analytics-big">₹14</div>
+      <div class="analytics-unit">LPA</div>
+      <div class="bar-container"><div class="bar" style="width:33%"></div></div>
+      <div class="analytics-caption">Median across all offers, Batch 2026</div>
+    </div>
+    <div class="analytics-card">
+      <div class="analytics-label">Students ≥ ₹20 LPA</div>
+      <div class="analytics-big">127</div>
+      <div class="analytics-unit">Students</div>
+      <div class="bar-container"><div class="bar" style="width:40%"></div></div>
+      <div class="analytics-caption">127 of 634 placed students at ≥₹20 LPA</div>
+    </div>
+    <div class="analytics-card">
+      <div class="analytics-label">Total Value Created</div>
+      <div class="analytics-big">₹11.6</div>
+      <div class="analytics-unit">Cr/yr</div>
+      <div class="bar-container"><div class="bar" style="width:70%"></div></div>
+      <div class="analytics-caption">Sum of all packages offered — Batch 2026</div>
+    </div>
+  </div>
+
+  <!-- CTC BAR CHART -->
+  <div class="chart-area" id="analytics-main">
+    <div class="chart-title">CTC Distribution — Batch 2026</div>
+    <div class="bar-chart" id="ctc-chart">
+      <!-- JS rendered -->
+    </div>
+    <div style="display:flex;gap:24px;margin-top:16px">
+      <span style="font-size:11px;color:#888"><span style="display:inline-block;width:12px;height:12px;background:var(--black);margin-right:6px"></span>Other Depts</span>
+      <span style="font-size:11px;color:#888"><span style="display:inline-block;width:12px;height:12px;background:var(--red);margin-right:6px"></span>CSE</span>
+    </div>
+  </div>
+
+  <!-- DEPT PLACEMENT CARDS -->
+  <div style="border-top:1px solid #111">
+    <div class="section-header">
+      <span class="section-num-lg" style="font-size:40px">Dept.</span>
+      <span class="section-title">Department Breakdown</span>
+    </div>
+    <div class="dept-grid">
+      <div class="dept-card">
+        <div class="dept-name">CSE</div>
+        <div class="dept-pct" style="color:var(--red)">94%</div>
+        <div class="dept-count">187 placed / 199 eligible</div>
+        <div class="dept-bar-outer"><div class="dept-bar-inner" style="width:94%"></div></div>
+        <div style="font-size:11px;color:#666;margin-top:12px">Avg CTC: ₹22.1 LPA · Top: ₹42 LPA (Google)</div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-name">IT</div>
+        <div class="dept-pct">88%</div>
+        <div class="dept-count">106 placed / 120 eligible</div>
+        <div class="dept-bar-outer"><div class="dept-bar-inner" style="width:88%"></div></div>
+        <div style="font-size:11px;color:#666;margin-top:12px">Avg CTC: ₹18.4 LPA · Top: ₹32 LPA (Microsoft)</div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-name">ECE</div>
+        <div class="dept-pct">82%</div>
+        <div class="dept-count">131 placed / 160 eligible</div>
+        <div class="dept-bar-outer"><div class="dept-bar-inner" style="width:82%"></div></div>
+        <div style="font-size:11px;color:#666;margin-top:12px">Avg CTC: ₹14.2 LPA · Top: ₹24 LPA (Samsung)</div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-name">ME</div>
+        <div class="dept-pct">71%</div>
+        <div class="dept-count">85 placed / 120 eligible</div>
+        <div class="dept-bar-outer"><div class="dept-bar-inner" style="width:71%"></div></div>
+        <div style="font-size:11px;color:#666;margin-top:12px">Avg CTC: ₹10.8 LPA · Top: ₹18 LPA (McKinsey)</div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-name">CE</div>
+        <div class="dept-pct">68%</div>
+        <div class="dept-count">69 placed / 102 eligible</div>
+        <div class="dept-bar-outer"><div class="dept-bar-inner" style="width:68%"></div></div>
+        <div style="font-size:11px;color:#666;margin-top:12px">Avg CTC: ₹9.2 LPA · Top: ₹14 LPA (Deloitte)</div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-name">EEE</div>
+        <div class="dept-pct">74%</div>
+        <div class="dept-count">56 placed / 76 eligible</div>
+        <div class="dept-bar-outer"><div class="dept-bar-inner" style="width:74%"></div></div>
+        <div style="font-size:11px;color:#666;margin-top:12px">Avg CTC: ₹11.4 LPA · Top: ₹20 LPA (Qualcomm)</div>
+      </div>
+      <div class="dept-card" style="border-right:none">
+        <div class="dept-name">Overall</div>
+        <div class="dept-pct" style="color:var(--red)">89%</div>
+        <div class="dept-count">634 placed / 712 eligible</div>
+        <div class="dept-bar-outer"><div class="dept-bar-inner" style="width:89%"></div></div>
+        <div style="font-size:11px;color:#666;margin-top:12px">Avg CTC: ₹18.4 LPA · Top: ₹42 LPA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP RECRUITERS -->
+  <div style="border-top:1px solid #111">
+    <div class="section-header">
+      <span class="section-num-lg" style="font-size:40px">Co.</span>
+      <span class="section-title">Top Recruiters</span>
+    </div>
+    <div style="overflow-x:auto;border-bottom:1px solid #111">
+      <table class="swiss-table" style="min-width:700px">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Company</th>
+            <th>Offers Made</th>
+            <th>Highest CTC</th>
+            <th>Avg. CTC</th>
+            <th>Departments</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:900;color:var(--red)">01</td><td style="font-weight:700">Google</td><td>12</td><td style="color:var(--red);font-weight:700">₹42 LPA</td><td>₹38 LPA</td><td>CSE, IT</td></tr>
+          <tr><td style="font-weight:900;color:var(--red)">02</td><td style="font-weight:700">Goldman Sachs</td><td>8</td><td>₹38 LPA</td><td>₹35 LPA</td><td>CSE, IT, ME</td></tr>
+          <tr><td style="font-weight:900;color:var(--red)">03</td><td style="font-weight:700">Adobe</td><td>10</td><td>₹35 LPA</td><td>₹31 LPA</td><td>CSE, IT</td></tr>
+          <tr><td style="font-weight:900;color:var(--red)">04</td><td style="font-weight:700">Microsoft</td><td>23</td><td>₹32 LPA</td><td>₹28 LPA</td><td>CSE, IT, ECE</td></tr>
+          <tr><td style="font-weight:900;color:var(--red)">05</td><td style="font-weight:700">Amazon</td><td>18</td><td>₹28 LPA</td><td>₹25 LPA</td><td>CSE, IT</td></tr>
+          <tr><td style="font-weight:700">06</td><td style="font-weight:700">Samsung R&amp;D</td><td>25</td><td>₹24 LPA</td><td>₹20 LPA</td><td>ECE, EEE, CSE</td></tr>
+          <tr><td style="font-weight:700">07</td><td style="font-weight:700">Qualcomm</td><td>15</td><td>₹20 LPA</td><td>₹18 LPA</td><td>ECE, EEE</td></tr>
+          <tr><td style="font-weight:700">08</td><td style="font-weight:700">McKinsey Digital</td><td>5</td><td>₹18 LPA</td><td>₹16 LPA</td><td>CSE, ME, CE</td></tr>
+          <tr><td style="font-weight:700">09</td><td style="font-weight:700">Deloitte</td><td>50</td><td>₹10.5 LPA</td><td>₹9.8 LPA</td><td>All</td></tr>
+          <tr><td style="font-weight:700">10</td><td style="font-weight:700">TCS</td><td>120</td><td>₹7.5 LPA</td><td>₹7.0 LPA</td><td>All</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SKILL DEMAND HEATMAP -->
+  <div style="border-top:1px solid #111;padding:40px;border-bottom:1px solid #111">
+    <div class="chart-title">Top Skills in Demand — All Active Drives</div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px" id="skill-heatmap">
+      <!-- JS populated -->
+    </div>
+  </div>
+
+  <footer class="footer grid-12">
+    <div class="footer-bottom col-1-12" style="border-top:1px solid #111;padding:16px 40px">
+      <span class="footer-rule-text">CAMPUS PLACEMENT PORTAL — 03 ANALYTICS — BATCH 2026</span>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // CTC bar chart
+      const ctcData = [
+        { range: '< ₹8L',   cse: 12, other: 68 },
+        { range: '₹8–12L',  cse: 18, other: 95 },
+        { range: '₹12–16L', cse: 28, other: 62 },
+        { range: '₹16–20L', cse: 35, other: 48 },
+        { range: '₹20–28L', cse: 42, other: 31 },
+        { range: '₹28–35L', cse: 28, other: 8  },
+        { range: '≥ ₹35L',  cse: 15, other: 2  },
+      ];
+      const maxVal = Math.max(...ctcData.map(d => d.cse + d.other));
+      const chart  = $('ctc-chart');
+      chart.innerHTML = ctcData.map(d => {
+        const total = d.cse + d.other;
+        const h = Math.round((total / maxVal) * 180);
+        return `
+          <div class="bar-chart-col">
+            <div class="bar-chart-val">${total}</div>
+            <div style="display:flex;align-items:flex-end;gap:2px;height:180px">
+              <div class="bar-chart-bar" style="height:${Math.round((d.other/maxVal)*180)}px;flex:1"></div>
+              <div class="bar-chart-bar red" style="height:${Math.round((d.cse/maxVal)*180)}px;flex:1"></div>
+            </div>
+            <div class="bar-chart-label">${d.range}</div>
+          </div>`;
+      }).join('');
+
+      // Skill heatmap
+      const skills = [
+        { name: 'Python',       count: 68 },
+        { name: 'DSA',          count: 84 },
+        { name: 'Java',         count: 62 },
+        { name: 'System Design',count: 52 },
+        { name: 'SQL',          count: 47 },
+        { name: 'React',        count: 41 },
+        { name: 'AWS',          count: 38 },
+        { name: 'C++',          count: 35 },
+        { name: 'Communication',count: 33 },
+        { name: 'ML',           count: 28 },
+        { name: 'Node.js',      count: 24 },
+        { name: 'VLSI',         count: 20 },
+        { name: 'Linux',        count: 18 },
+        { name: 'Docker',       count: 16 },
+        { name: 'Embedded C',   count: 15 },
+        { name: 'TensorFlow',   count: 14 },
+      ];
+      const max = skills[0].count;
+      $('skill-heatmap').innerHTML = skills.map(s => {
+        const pct = s.count / max;
+        const size = Math.round(10 + pct * 10);
+        const bg   = pct > 0.7 ? 'var(--red)' : pct > 0.4 ? 'var(--black)' : '#eee';
+        const clr  = pct > 0.4 ? 'var(--white)' : 'var(--black)';
+        return `<div style="padding:10px 18px;background:${bg};color:${clr};font-size:${size}px;font-weight:700;letter-spacing:-.01em;cursor:default">${s.name} <span style="font-size:11px;opacity:.7">${s.count}</span></div>`;
+      }).join('');
+    });
+  </script>
+</body>
+</html>

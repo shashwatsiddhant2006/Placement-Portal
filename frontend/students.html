@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Database — Campus Placement Portal</title>
+  <meta name="description" content="Browse and search the student database — skills, CGPA, placement status." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="index.html" style="display:flex;align-items:baseline;gap:12px;text-decoration:none">
+        <span class="nav-logo">CPP</span>
+        <span class="nav-subtitle">Campus Placement Portal</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html"     class="nav-link">Home</a>
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="drives.html"    class="nav-link">Drives</a>
+      <a href="students.html"  class="nav-link active">Students</a>
+      <a href="analytics.html" class="nav-link">Analytics</a>
+    </div>
+    <div class="nav-right">
+      <span class="nav-role-label">ROLE</span>
+      <select class="role-select" id="role-select" onchange="switchRole(this.value)">
+        <option value="student">Student</option>
+        <option value="recruiter">Recruiter</option>
+        <option value="staff">Staff / Admin</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header" style="background:var(--black);color:var(--white);position:relative;overflow:hidden">
+    <div style="position:absolute;width:380px;height:380px;border-radius:50%;background:var(--red);bottom:-140px;right:-60px;z-index:0"></div>
+    <div style="position:relative;z-index:1">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#555;margin-bottom:8px">02 — Student Database</div>
+      <h1 class="page-title" style="color:var(--white)">Student<br>Database</h1>
+    </div>
+    <div style="position:relative;z-index:1;text-align:right">
+      <div style="font-size:72px;font-weight:900;letter-spacing:-.04em;color:var(--white);line-height:1">847</div>
+      <div style="font-size:13px;color:#888;margin-top:4px">Total Registered Students</div>
+    </div>
+  </div>
+
+  <!-- STUDENT STATS STRIP -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #111">
+    <div class="dash-kpi"><div class="dash-kpi-label">Eligible</div><div class="dash-kpi-val">712</div><div class="dash-kpi-sub">Meet min criteria</div></div>
+    <div class="dash-kpi"><div class="dash-kpi-label">Placed</div><div class="dash-kpi-val" style="color:var(--red)">634</div><div class="dash-kpi-sub">Offer accepted</div></div>
+    <div class="dash-kpi"><div class="dash-kpi-label">Avg. CGPA</div><div class="dash-kpi-val">8.2</div><div class="dash-kpi-sub">Batch average</div></div>
+    <div class="dash-kpi"><div class="dash-kpi-label">Top Skill</div><div class="dash-kpi-val" style="font-size:28px">Python</div><div class="dash-kpi-sub">Most common skill</div></div>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="search-bar-row">
+    <input class="search-input" id="student-search" type="text"
+      placeholder="Search by name, roll number, department, or skill…"
+      onkeyup="if(event.key==='Enter')doSearch()"
+    />
+    <button class="search-btn" onclick="doSearch()">Search →</button>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterStudents(this,'all')">All</button>
+    <button class="filter-btn" onclick="filterStudents(this,'CSE')">CSE</button>
+    <button class="filter-btn" onclick="filterStudents(this,'ECE')">ECE</button>
+    <button class="filter-btn" onclick="filterStudents(this,'IT')">IT</button>
+    <button class="filter-btn" onclick="filterStudents(this,'ME')">ME</button>
+    <button class="filter-btn" onclick="filterStudents(this,'hired')">Placed</button>
+    <button class="filter-btn" onclick="filterStudents(this,'shortlisted')">Shortlisted</button>
+    <button class="filter-btn" onclick="filterStudents(this,'pending')">Pending</button>
+  </div>
+
+  <!-- STUDENTS TABLE -->
+  <div style="overflow-x:auto;border-bottom:1px solid #111">
+    <table class="swiss-table" style="min-width:900px" id="students-main-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Roll No.</th>
+          <th>Name</th>
+          <th>Department</th>
+          <th>CGPA</th>
+          <th>Skills</th>
+          <th>Offer</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="students-full-tbody">
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="footer grid-12">
+    <div class="footer-bottom col-1-12" style="border-top:1px solid #111;padding:16px 40px">
+      <span class="footer-rule-text">CAMPUS PLACEMENT PORTAL — 02 STUDENT DATABASE — BATCH 2026</span>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Extended student row with offer column
+    function studentRowHTML(s, i) {
+      const skillsHtml = s.skills.map(sk => `<span class="skill-chip">${sk}</span>`).join('');
+      const cgpaClass  = s.cgpa >= 9.0 ? 'cgpa-high' : '';
+      return `
+        <tr onclick="openStudentModal('${s.roll}')" style="cursor:pointer">
+          <td style="font-size:11px;color:#aaa;">${String(i+1).padStart(2,'0')}</td>
+          <td><span class="student-roll">${s.roll}</span></td>
+          <td><span class="student-name">${s.name}</span></td>
+          <td><span class="student-dept-badge">${s.dept}</span></td>
+          <td><span class="cgpa-val ${cgpaClass}">${s.cgpa}</span></td>
+          <td><div class="skills-list">${skillsHtml}</div></td>
+          <td style="font-weight:600;color:var(--red)">${s.offer || '—'}</td>
+          <td>${statusBadge(s.status)}</td>
+        </tr>`;
+    }
+
+    function filterStudents(btn, filter) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tbody = $('students-full-tbody');
+      let students = DB.students;
+      if (filter !== 'all') {
+        students = students.filter(s =>
+          s.dept === filter || s.status === filter
+        );
+      }
+      tbody.innerHTML = students.map((s,i) => studentRowHTML(s,i)).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      filterStudents(document.querySelector('.filter-btn'), 'all');
+    });
+
+    // Override doSearch for extended row
+    function doSearch() {
+      const q = $('student-search').value.trim().toLowerCase();
+      const tbody = $('students-full-tbody');
+      let students = q
+        ? DB.students.filter(s =>
+            s.name.toLowerCase().includes(q) ||
+            s.roll.toLowerCase().includes(q) ||
+            s.dept.toLowerCase().includes(q) ||
+            s.skills.some(sk => sk.toLowerCase().includes(q))
+          )
+        : DB.students;
+      tbody.innerHTML = students.length
+        ? students.map((s,i) => studentRowHTML(s,i)).join('')
+        : `<tr><td colspan="8" style="text-align:center;padding:48px;color:#aaa;font-size:13px">No students match your search.</td></tr>`;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Campus Placement Portal</title>
+  <meta name="description" content="Placement Portal Dashboard — real-time KPIs, pipeline funnel, recent drives." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="index.html" style="display:flex;align-items:baseline;gap:12px;text-decoration:none">
+        <span class="nav-logo">CPP</span>
+        <span class="nav-subtitle">Campus Placement Portal</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html"     class="nav-link" id="nav-home">Home</a>
+      <a href="dashboard.html" class="nav-link active" id="nav-dashboard">Dashboard</a>
+      <a href="drives.html"    class="nav-link" id="nav-drives">Drives</a>
+      <a href="students.html"  class="nav-link" id="nav-students">Students</a>
+      <a href="analytics.html" class="nav-link" id="nav-analytics">Analytics</a>
+    </div>
+    <div class="nav-right">
+      <span class="nav-role-label">ROLE</span>
+      <select class="role-select" id="role-select" onchange="switchRole(this.value)">
+        <option value="student">Student</option>
+        <option value="recruiter">Recruiter</option>
+        <option value="staff">Staff / Admin</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- DASHBOARD HEADER -->
+  <div class="page-header" style="background:var(--black);color:var(--white)">
+    <div>
+      <h1 class="page-title" style="color:var(--white)">Dashboard</h1>
+      <div class="page-subtitle" style="color:#888;margin-top:8px">Batch 2026 — Live Placement Statistics</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555">Last Updated</div>
+      <div style="font-size:18px;font-weight:700;color:var(--red);margin-top:4px">27 Oct 2026, 17:05</div>
+    </div>
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="dash-kpi-row" id="dash-kpi-row"></div>
+
+  <!-- TWO-COL PANELS -->
+  <div class="dash-two-col">
+    <div class="dash-panel">
+      <div class="dash-panel-title">Placement Pipeline — Batch 2026</div>
+      <div class="funnel" id="dash-funnel"></div>
+    </div>
+    <div class="dash-panel">
+      <div class="dash-panel-title">Recent Activity</div>
+      <div class="timeline" id="dash-timeline"></div>
+    </div>
+  </div>
+
+  <!-- RECENT DRIVES TABLE -->
+  <section class="section">
+    <div class="section-header col-1-12">
+      <span class="section-num-lg">01</span>
+      <span class="section-title">Recent Drives</span>
+      <a href="drives.html" class="section-link">View All →</a>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="swiss-table" style="min-width:700px">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Role</th>
+            <th>CTC</th>
+            <th>Deadline</th>
+            <th>Applicants</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="dash-drives-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- DEPT SUMMARY ROW -->
+  <section class="section">
+    <div class="section-header col-1-12">
+      <span class="section-num-lg">02</span>
+      <span class="section-title">Department Summary</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr)">
+      <div class="dash-kpi" style="border-bottom:none">
+        <div class="dash-kpi-label">CSE</div>
+        <div class="dash-kpi-val" style="color:var(--red)">94%</div>
+        <div class="dash-kpi-sub">187 / 199 placed</div>
+      </div>
+      <div class="dash-kpi" style="border-bottom:none">
+        <div class="dash-kpi-label">ECE</div>
+        <div class="dash-kpi-val">82%</div>
+        <div class="dash-kpi-sub">131 / 160 placed</div>
+      </div>
+      <div class="dash-kpi" style="border-bottom:none">
+        <div class="dash-kpi-label">IT</div>
+        <div class="dash-kpi-val">88%</div>
+        <div class="dash-kpi-sub">106 / 120 placed</div>
+      </div>
+      <div class="dash-kpi" style="border-bottom:none">
+        <div class="dash-kpi-label">ME</div>
+        <div class="dash-kpi-val">71%</div>
+        <div class="dash-kpi-sub">85 / 120 placed</div>
+      </div>
+      <div class="dash-kpi" style="border-bottom:none">
+        <div class="dash-kpi-label">CE</div>
+        <div class="dash-kpi-val">68%</div>
+        <div class="dash-kpi-sub">69 / 102 placed</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer grid-12" style="margin-top:0">
+    <div class="footer-bottom col-1-12" style="border-top:1px solid #111;padding:16px 40px">
+      <span class="footer-rule-text">CAMPUS PLACEMENT PORTAL — DASHBOARD — BATCH 2026</span>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

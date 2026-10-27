@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Placement Portal — University T&P Cell</title>
+  <meta name="description" content="University Campus Placement Portal — Track job drives, student applications, and placement analytics in real time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav" id="main-nav">
+    <div class="nav-left">
+      <span class="nav-logo">CPP</span>
+      <span class="nav-subtitle">Campus Placement Portal</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active" id="nav-home">Home</a>
+      <a href="dashboard.html" class="nav-link" id="nav-dashboard">Dashboard</a>
+      <a href="drives.html" class="nav-link" id="nav-drives">Drives</a>
+      <a href="students.html" class="nav-link" id="nav-students">Students</a>
+      <a href="analytics.html" class="nav-link" id="nav-analytics">Analytics</a>
+    </div>
+    <div class="nav-right">
+      <span class="nav-role-label">ROLE</span>
+      <select class="role-select" id="role-select" onchange="switchRole(this.value)">
+        <option value="student">Student</option>
+        <option value="recruiter">Recruiter</option>
+        <option value="staff">Staff / Admin</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero grid-12">
+    <div class="red-circle" aria-hidden="true"></div>
+    <div class="hero-section-tag col-1-3">
+      <span class="section-num">00</span>
+      <span class="section-label">Overview</span>
+    </div>
+    <div class="hero-headline col-1-8">
+      <h1 class="headline-xl">PLACE<br>MENT<br>2026</h1>
+    </div>
+    <div class="hero-stats col-9-12">
+      <div class="stat-block">
+        <span class="stat-num">₹42</span>
+        <span class="stat-unit">LPA</span>
+        <span class="stat-caption">Highest CTC Offered — Google SWE, Batch 2026</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-block">
+        <span class="stat-num">312</span>
+        <span class="stat-unit">Offers</span>
+        <span class="stat-caption">Total offers extended across all departments</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-block">
+        <span class="stat-num">89<span class="stat-pct">%</span></span>
+        <span class="stat-caption">Placement rate — eligible students batch 2026</span>
+      </div>
+    </div>
+    <div class="hero-marquee col-1-12">
+      <div class="marquee-track">
+        <span>TOP RECRUITER: GOOGLE &nbsp;—&nbsp; MICROSOFT &nbsp;—&nbsp; GOLDMAN SACHS &nbsp;—&nbsp; AMAZON &nbsp;—&nbsp; ADOBE &nbsp;—&nbsp; INFOSYS &nbsp;—&nbsp; TCS &nbsp;—&nbsp; DELOITTE &nbsp;—&nbsp; WIPRO &nbsp;—&nbsp; ORACLE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span aria-hidden="true">TOP RECRUITER: GOOGLE &nbsp;—&nbsp; MICROSOFT &nbsp;—&nbsp; GOLDMAN SACHS &nbsp;—&nbsp; AMAZON &nbsp;—&nbsp; ADOBE &nbsp;—&nbsp; INFOSYS &nbsp;—&nbsp; TCS &nbsp;—&nbsp; DELOITTE &nbsp;—&nbsp; WIPRO &nbsp;—&nbsp; ORACLE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 01 — ACTIVE DRIVES -->
+  <section class="section drives-section grid-12" id="active-drives">
+    <div class="section-header col-1-12">
+      <span class="section-num-lg">01</span>
+      <span class="section-title">Active Drives</span>
+      <a href="drives.html" class="section-link">View All →</a>
+    </div>
+    <div class="drives-grid col-1-12" id="drives-container">
+      <!-- JS populated -->
+    </div>
+  </section>
+
+  <!-- SECTION 02 — STUDENT SNAPSHOT -->
+  <section class="section students-section grid-12" id="student-db">
+    <div class="section-header col-1-12">
+      <span class="section-num-lg">02</span>
+      <span class="section-title">Student Database</span>
+      <a href="students.html" class="section-link">View All →</a>
+    </div>
+    <div class="students-table-wrap col-1-12">
+      <table class="swiss-table" id="students-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Roll No.</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>CGPA</th>
+            <th>Skills</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="students-tbody">
+          <!-- JS populated -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 03 — ANALYTICS STRIP -->
+  <section class="section analytics-section grid-12" id="analytics">
+    <div class="section-header col-1-12">
+      <span class="section-num-lg">03</span>
+      <span class="section-title">Analytics</span>
+      <a href="analytics.html" class="section-link">Full Report →</a>
+    </div>
+    <div class="analytics-cards col-1-12">
+      <div class="analytics-card">
+        <span class="analytics-label">Avg. CTC</span>
+        <span class="analytics-big">₹18.4</span>
+        <span class="analytics-unit">LPA</span>
+        <div class="bar-container"><div class="bar" style="width:73%"></div></div>
+        <span class="analytics-caption">Up 12% from Batch 2025 average of ₹16.4 LPA</span>
+      </div>
+      <div class="analytics-card">
+        <span class="analytics-label">CSE Placement</span>
+        <span class="analytics-big">94</span>
+        <span class="analytics-unit">%</span>
+        <div class="bar-container"><div class="bar" style="width:94%"></div></div>
+        <span class="analytics-caption">Highest among all departments — 187 of 199 students</span>
+      </div>
+      <div class="analytics-card">
+        <span class="analytics-label">ECE Placement</span>
+        <span class="analytics-big">82</span>
+        <span class="analytics-unit">%</span>
+        <div class="bar-container"><div class="bar" style="width:82%"></div></div>
+        <span class="analytics-caption">82% placed — 131 of 160 students received offers</span>
+      </div>
+      <div class="analytics-card">
+        <span class="analytics-label">Active Companies</span>
+        <span class="analytics-big">47</span>
+        <span class="analytics-unit">Co.</span>
+        <div class="bar-container"><div class="bar" style="width:60%"></div></div>
+        <span class="analytics-caption">47 companies registered for Batch 2026 season</span>
+      </div>
+      <div class="analytics-card">
+        <span class="analytics-label">Open Positions</span>
+        <span class="analytics-big">128</span>
+        <span class="analytics-unit">Jobs</span>
+        <div class="bar-container"><div class="bar" style="width:55%"></div></div>
+        <span class="analytics-caption">128 active job postings across all companies</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer grid-12">
+    <div class="footer-left col-1-6">
+      <span class="footer-logo">CPP</span>
+      <span class="footer-tagline">Campus Placement Portal<br>Training &amp; Placement Cell</span>
+    </div>
+    <div class="footer-credits col-9-12">
+      <p class="footer-credit-line">Shashwat Siddhant &amp; Arnav Semwal</p>
+      <p class="footer-credit-line">BACSE202 — Database Systems</p>
+      <p class="footer-credit-line">October 2026</p>
+    </div>
+    <div class="footer-bottom col-1-12">
+      <span class="footer-rule-text">CAMPUS PLACEMENT PORTAL — UNIVERSITY T&amp;P CELL — 2026</span>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
